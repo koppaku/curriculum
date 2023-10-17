@@ -1,0 +1,295 @@
+                    @if($like_model->like_exist(Auth::user()->id,$servicedetail->id))
+                    <p class="favorite-marke">
+                    <a class="js-like-toggle loved" href="" data-postid="{{ $servicedetail->id }}"><i class="fas fa-heart"></i></a>
+                    <span class="likesCount">{{$servicedetail->likes_count}}</span>
+                    </p>
+                    @else
+                    <p class="favorite-marke">
+                    <a class="js-like-toggle" href="" data-postid="{{ $servicedetail->id }}"><i class="fas fa-heart"></i></a>
+                    <span class="likesCount">{{$servicedetail->likes_count}}</span>
+                    </p>
+                    @endif
+
+
+
+                    $(function () {
+                        var like = $('.js-like-toggle');
+                        var likePostId;
+                        
+                        like.on('click', function () {
+                            var $this = $(this);
+                            likePostId = $this.data('postid');
+                            $.ajax({
+                                    headers: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                    },
+                                    url: '/ajaxlike',  //routeの記述
+                                    type: 'POST', //受け取り方法の記述（GETもある）
+                                    data: {
+                                        'service_id': likePostId //コントローラーに渡すパラメーター
+                                    },
+                            })
+                        
+                                // Ajaxリクエストが成功した場合
+                                .done(function (data) {
+                        //lovedクラスを追加
+                                    $this.toggleClass('loved'); 
+                        
+                        //.likesCountの次の要素のhtmlを「data.postLikesCount」の値に書き換える
+                                    $this.next('.likesCount').html(data.postLikesCount); 
+                        
+                                })
+                                // Ajaxリクエストが失敗した場合
+                                .fail(function (data, xhr, err) {
+                        //ここの処理はエラーが出た時にエラー内容をわかるようにしておく。
+                        //とりあえず下記のように記述しておけばエラー内容が詳しくわかります。笑
+                                    console.log('エラー');
+                                    console.log(err);
+                                    console.log(xhr);
+                                });
+                            
+                            return false;
+                        });
+                        });
+
+                        console.log('コンソール出力');
+
+
+                        <main class="py-4">
+                            <div class="col-md-5 mx-auto">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h1 class='text-center'>新規投稿</h1>
+                                    </div>
+                                    <div class="card-body">
+                                            <div class='panel-body'>
+                                                @if($errors->any())
+                                                <div class='alert alert-danger'>
+                                                    <ul>
+                                                        @foreach($errors->all() as $message)
+                                                        <li>{{ $message }}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                                @endif
+                                            </div>
+                                        <div class="card-body">
+                                            <form action="{{ route('create.post') }}" method="post"  enctype="multipart/form-data">
+                                               @csrf
+                                                <label for='title'>タイトル</label>
+                                                    <input type='text' class='form-control' name='title' value="{{ old('title') }}"/>
+                                                <label for='content' class='mt-2'>内容</label>
+                                                    <textarea class='form-control' name='content'>{{ old('content') }}</textarea>
+                                                <label for='amount' class='mt-2'>金額</label>
+                                                    <input type='text' class='form-control' name='amount' id='date' value="{{ old('amount') }}"/>
+                                                <label for='image' class='mt-2'>画像</label>
+                                                    <input type="file"  name="image" id="image" value=""/> 
+                    
+                                                <div class='row justify-content-center'>
+                                                    <button type='submit' class='btn btn-primary w-25 mt-3'>内容を確認する</button>
+                                                </div> 
+                                            </form>
+                                        </div>
+                                        <div class="card-body">
+                                            <a href="{{ route('mypage') }}">
+                                              <button type='submit' class='btn btn-primary w-25 mt-3'>マイページへ</button>
+                                            </a>
+                                        </div>
+                                        <div class='d-flex mt-3'>
+                                            <button id="btn--back" class="rounded-md bg-gray-800 text-white px-4 py-2">戻る</button>
+                                                <script> 
+                                                    const back = document.getElementById('btn--back'); back.addEventListener('click', (e) => { history.back(); return false; }); 
+                                                </script>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </main>
+
+    <!-- <div class="text-primary fw-bolder mb-2">{{ $requestdetail['status']['choice'] }}</div> -->
+
+    
+    <main class="py-4">
+        <div class="col-md-5 mx-auto">
+            <div class="card">
+                <div class="card-header">
+                    <h1 class='text-center'>依頼確認</h1>
+                </div>
+                <div class="card-body">
+                    <div class="card-body">
+                        <form action="{{ route('comp.request') }}" method="post">
+                        @csrf
+                            <input type='hidden' class='form-control' name='service_id' value="{{ $requests['service_id'] }}"/>
+                            <input type='hidden' class='form-control' name='content' value="{{ $requests['content'] }}"/>
+                            <input type='hidden' class='form-control' name='tel' value="{{ $requests['tel'] }}"/>
+                            <input type='hidden' class='form-control' name='email' value="{{ $requests['email'] }}"/>
+                            <input type='hidden' class='form-control' name='deadline' value="{{ $requests['deadline'] }}"/>
+
+
+                            <div class="overflow-hidden bg-white shadow sm:rounded-lg">
+                                <div class="border-t">
+                                    <dl>
+                                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <dt class="text-sm font-medium">タイトル</dt>
+                                            <dd class="mt-1 text-sm sm:col-span-2 sm:mt-0">{{ $requests['title'] }}</dd>
+                                        </div>
+                                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <dt class="text-sm font-medium">内容</dt>
+                                            <dd class="mt-1 text-sm sm:col-span-2 sm:mt-0">{{ $requests['content'] }}</dd>
+                                        </div>
+                                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <dt class="text-sm font-medium">電話番号</dt>
+                                            <dd class="mt-1 text-sm sm:col-span-2 sm:mt-0">{{ $requests['tel'] }}</dd>
+                                        </div>
+                                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <dt class="text-sm font-medium">メールアドレス</dt>
+                                            <dd class="mt-1 text-sm sm:col-span-2 sm:mt-0">{{ $requests['email'] }}</dd>
+                                        </div>
+                                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <dt class="text-sm font-medium">期日</dt>
+                                            <dd class="mt-1 text-sm sm:col-span-2 sm:mt-0">{{ $requests['deadline'] }}</dd>
+                                        </div>
+
+                                    </dl>
+                                </div>
+                            </div>
+
+                            <div class='row justify-content-center'>
+                                <button type='submit' class='btn btn-primary w-25 mt-3'>投稿</button>
+                            </div> 
+                        </form>
+                    </div>
+                    <div class="card-body">
+                      <button id="btn--back" class="rounded-md bg-gray-800 text-white px-4 py-2">戻る</button>
+                        <script> 
+                            const back = document.getElementById('btn--back'); back.addEventListener('click', (e) => { history.back(); return false; }); 
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    // 日付検索
+    if (isset($from) && isset($until)) {
+        $all_spending = Auth::user()->spending()->whereBetween("date", [$from, $until])->where('del_flg', '=', 0)->get()->toArray();
+        $all_income = Auth::user()->Income()->whereBetween("date", [$from, $until])->where('del_flg', '=', 0)->get()->toArray();
+    }  
+    
+    if($from > $until) {
+        $message = '日付が正しくありません';
+    } else {
+        $message = '';
+    }
+
+    // 検索機能
+    Route::get('/search', [DisplayController::class, 'searchForm'])->name('search');
+    Route::post('/search', [DisplayController::class, 'search']);
+
+    <div class='d-flex'>
+        <div class='d-flex'>金額</div>
+        <input type="text" name="from" id='from' placeholder="from_date" value="">
+        <span class="mx-3">～</span>
+        <input type="text" name="until" id='until' placeholder="until_date" value="">
+    </div>
+    <div class='d-flex'>
+        <div class='d-flex'>気になる</div>
+        <input type="checkbox" name="sex[]" value="">
+    </div>
+
+    <div class="text-center text-danger"></div>
+
+    MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=2525
+
+@extends('header')
+@section('content')
+
+<header class="py-5">
+    <div class="d-flex justify-content-around  align-items-center px-5 pb-5">
+        <div class="row gx-5 align-items-center">
+            <div class="col-xxl-5">
+                <!-- Header text content-->
+                <div class="text-center text-xxl-start">
+                    <h1 class="display-5 fw-bolder mb-5">{{ Auth::user()->name }}</h1>
+                    <h2 class="display-6 fw-bolder mb-5">{{ Auth::user()->email }}</h2>
+                    <div class="d-grid gap-3 d-flex justify-content-around mb-3">
+                        <div><a class="btn btn-primary btn-lg px-5 py-3 me-sm-3 fs-6 fw-bolder" href="">情報編集</a></div>
+                        <div><a class="btn btn-outline-dark btn-lg px-5 py-3 fs-6 fw-bolder" href="">退会</a></div>
+                        <div><a class="btn btn-primary btn-lg px-5 py-3 me-sm-3 fs-6 fw-bolder" href="{{ route('post_form') }}">新規投稿</a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xxl-7">
+                <!-- Header profile picture-->
+                <div class="">
+                    @if(is_null(Auth::user()->icon))
+                        <img class="img-fluid"  width="300" height="300"  src="{{ asset('img/icon/noimage.png') }}" alt="Noimage" />
+                    @else
+                        <img class="img-fluid"  width="300" height="300"  src="{{ asset(Auth::user()->icon) }}" alt="プロフィール画像" />
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<main class="py-4">
+    
+<div class="d-flex justify-content-around">
+    <div class="col-5 ml-3">
+    <h1 class="my-3 ml-3">投稿履歴</h1>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>タイトル</th>
+                    <th>金額</th>
+                    <th>投稿詳細</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($services as $service)
+                <tr>
+                    <td>{{ $service['title'] }}</td>
+                    <td>{{ $service['amount'] }}</td>
+                    <td><a href="{{ route('user.service.detail', ['id' => $service['id']]) }}">詳細</a></td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-5 ml-3">
+    <h1 class="my-3 ml-3">依頼履歴</h1>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>タイトル</th>
+                    <th>期日</th>
+                    <th>依頼詳細</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($requests as $request)
+                <tr>
+                    <td>{{ $request['service']['title'] }}</td>
+                    <td>{{ $request['deadline'] }}</td>
+                    <td><a href="{{ route('user.request.detail', ['id' => $request['id']]) }}">詳細</a></td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+</main>
+@endsection
+
+
+->where(function($query3) use($favorite){
+    // 金額検索
+    if ($favorite === 1) {
+        $query3->with('like');  
+
+    } 
+})
