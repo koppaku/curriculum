@@ -105,9 +105,9 @@ class AdminController extends Controller
         {
             User::onlyTrashed()->where('id', $id)->restore();
 
-            if(is_null(User::find($id))){
-                abort(404);
-            }
+            // if(is_null(User::find($id))){
+            //     abort(404);
+            // }
 
             return view('admin/resume_comp', []);
         }
@@ -136,9 +136,9 @@ class AdminController extends Controller
         {
             User::find($id)->delete();
 
-            if(is_null(User::find($id))){
-                abort(404);
-            }
+            // if(is_null(User::find($id))){
+            //     abort(404);
+            // }
 
             return view('admin/stop_comp', []);
         }

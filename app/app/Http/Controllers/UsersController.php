@@ -55,6 +55,36 @@ class UsersController extends Controller
         $user = Auth::user();
         $user->name = $request->input('name');
         $user->email = $request->input('email');
+
+        $icon_tmp = $request->file('icon');
+
+        // dd($icon_tmp);
+        
+        if (isset($icon_tmp)) {
+            $img_file = $icon_tmp;
+            //画像がアップロードされたのか確認
+            if ($img_file->isValid()) {
+                // 拡張子つきでファイル名を取得
+                $imageName = $img_file->getClientOriginalName();
+
+                // 拡張子のみ
+                $extension = $img_file->getClientOriginalExtension();
+
+                // 新しいファイル名を生成（形式：元のファイル名_ランダムの英数字.拡張子）
+                $newImageName = pathinfo($imageName, PATHINFO_FILENAME) . "_" . uniqid() . "." . $extension;
+
+                $img_file->move(public_path() . "/img/icon", $newImageName);
+                $icon = $newImageName;
+            } else {
+                $icon = '';
+            }
+        } else {
+            $icon = '';
+        }
+
+        $user->icon = $icon;
+
+
         $user->save();
 
         return redirect('mypage');

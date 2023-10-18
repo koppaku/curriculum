@@ -94,7 +94,7 @@ class DisplayController extends Controller
     
                 }
                 
-            })->get()->toArray();
+            })->simplePaginate(6);
         } else {
             // 検索条件
             $all_service = $service->with('user')->where(function($query1) use($text){
@@ -117,7 +117,7 @@ class DisplayController extends Controller
 
             }
             
-            })->where('del_flg', '=', 0)->get()->toArray();
+            })->where('del_flg', '=', 0)->simplePaginate(6);
         }   
 
 

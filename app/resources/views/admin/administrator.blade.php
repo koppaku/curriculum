@@ -39,12 +39,14 @@
             </thead>
             <tbody>
                 @foreach($violation_list as $violation)
+                    @if(isset($violation['service']['user']))   
                 <tr>
                     <td>{{ $violation['service']['title'] }}</td>
                     <td>{{ $violation['count_serviceId'] }}</td>
                     <td>{{ $violation['service']['user_id'] }}</td>
                     <td><a href="{{ route('stop.user.conf', ['id' => $violation['service']['user_id']]) }}">停止</a></td>
                 </tr>
+                    @endif
                 @endforeach
             </tbody>
         </table>

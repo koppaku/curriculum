@@ -26,11 +26,6 @@ Auth::routes();
     // メインページ表示
     Route::get('/', [DisplayController::class, 'index'])->name('index');
 
-    // 検索機能
-    Route::get('/search', [DisplayController::class, 'searchForm'])->name('search');
-    Route::post('/search', [DisplayController::class, 'search']);
-
-
     // 管理者ログイン用
     //下記を追記する
     Route::get('/login/admin', 'Auth\LoginController@showAdminLoginForm');
@@ -61,10 +56,14 @@ Auth::routes();
 
 Route::group(['middleware' => 'auth'], function() {
 
-    Route::group(['middleware' => 'can:view,service'], function() {
+    // 検索機能
+    Route::get('/search', [DisplayController::class, 'searchForm'])->name('search');
+    Route::post('/search', [DisplayController::class, 'search']);
 
-        // SELECT(service詳細) 
-        Route::get('/service/{service}/detail', [DisplayController::class, 'serviceDetail'])->name('service.detail');
+            // SELECT(service詳細) 
+            Route::get('/service/{service}/detail', [DisplayController::class, 'serviceDetail'])->name('service.detail');
+
+    Route::group(['middleware' => 'can:view,service'], function() {
 
         // 投稿詳細（マイページから）
         Route::get('/user/service/{service}/detail', [DisplayController::class, 'serviceUserDetail'])->name('user.service.detail');
