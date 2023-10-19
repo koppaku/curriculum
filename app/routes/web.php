@@ -60,8 +60,22 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/search', [DisplayController::class, 'searchForm'])->name('search');
     Route::post('/search', [DisplayController::class, 'search']);
 
-            // SELECT(service詳細) 
-            Route::get('/service/{service}/detail', [DisplayController::class, 'serviceDetail'])->name('service.detail');
+        // SELECT(service詳細) 
+        Route::get('/service/{service}/detail', [DisplayController::class, 'serviceDetail'])->name('service.detail');
+
+        // request_form(依頼登録へ)
+        Route::get('/request_form/{service}', [DisplayController::class, 'request_form'])->name('request_form');
+
+        // violation_form(違反登録へ)
+        Route::get('/violation_form/{service}', [DisplayController::class, 'violation_form'])->name('violation_form');
+
+        // INSERT(依頼)
+        Route::post('/request_conf', [RegistrationController::class, 'request_conf'])->name('create.request');
+        Route::post('/request_comp', [RegistrationController::class, 'request_comp'])->name('comp.request');
+
+        // INSERT(違反)
+        Route::post('/violation_conf', [RegistrationController::class, 'violation_conf'])->name('create.violation');
+        Route::post('/violation_comp', [RegistrationController::class, 'violation_comp'])->name('comp.violation');
 
     Route::group(['middleware' => 'can:view,service'], function() {
 
@@ -76,12 +90,6 @@ Route::group(['middleware' => 'auth'], function() {
             Route::get('/service/{service}/delete/conf', [RegistrationController::class, 'serviceDeleteConf'])->name('delete.service.conf');
             Route::post('/service/{service}/delete/comp', [RegistrationController::class, 'serviceDeleteComp'])->name('delete.service.comp');
        
-        // request_form(依頼登録へ)
-        Route::get('/request_form/{service}', [DisplayController::class, 'request_form'])->name('request_form');
-
-        // violation_form(違反登録へ)
-        Route::get('/violation_form/{service}', [DisplayController::class, 'violation_form'])->name('violation_form');
-
     });
 
 
@@ -119,14 +127,6 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('/request/{requests}/edit', [RegistrationController::class, 'editRequestForm'])->name('edit.request');
         Route::post('/request/{requests}/edit', [RegistrationController::class, 'editRequest']);
     });
-
-        // INSERT(依頼)
-        Route::post('/request_conf', [RegistrationController::class, 'request_conf'])->name('create.request');
-        Route::post('/request_comp', [RegistrationController::class, 'request_comp'])->name('comp.request');
-
-        // INSERT(依頼)
-        Route::post('/violation_conf', [RegistrationController::class, 'violation_conf'])->name('create.violation');
-        Route::post('/violation_comp', [RegistrationController::class, 'violation_comp'])->name('comp.violation');
 
 });
 

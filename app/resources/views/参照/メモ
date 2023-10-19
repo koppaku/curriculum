@@ -293,3 +293,12 @@ MAIL_PORT=2525
 
     } 
 })
+
+            
+$user = $like->with('service')->get();
+
+$user = $user->service->user_id;->where('user_id',$user)
+
+dd($user);
+
+    $user = $like->with('service')->get();

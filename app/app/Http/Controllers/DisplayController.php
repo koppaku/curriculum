@@ -62,7 +62,7 @@ class DisplayController extends Controller
 
         $service = new Service;
         $like = new Like;
-
+        $id = Auth::user()->id;
 
         // 検索データ
         $text = $request->input('text');
@@ -72,9 +72,9 @@ class DisplayController extends Controller
 
         if ($favorite == 1) {
 
-            $user = Auth::user()->id;
-
-            $all_service = $like->with('service')->with('user')->where('user_id',$user)->whereHas('service', function($query1) use($text){
+            $all_service = Like::where('user_id',$id)->with(['service'=> function ($query3) {
+                $query3->with('user');
+            }])->whereHas('service', function($query1) use($text){
 
                 // テキスト検索
                 if (isset($text)) {
@@ -94,7 +94,7 @@ class DisplayController extends Controller
     
                 }
                 
-            })->simplePaginate(6);
+                })->simplePaginate(6);
         } else {
             // 検索条件
             $all_service = $service->with('user')->where(function($query1) use($text){

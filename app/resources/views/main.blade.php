@@ -69,13 +69,13 @@
                                 <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
                                     <div class="d-flex align-items-end justify-content-between">
                                             <div class="d-flex align-items-center">
-                                            @if(empty($service['user']['icon']))
+                                            @if(empty($service['service']['user']['icon']))
                                                 <img class="rounded-circle me-3"  width="50" height="50"  src="{{ asset('img/icon/noimage.png') }}" alt="Noimage" />
                                             @else
-                                                <img class="rounded-circle me-3"  width="50" height="50"  src="{{ asset('img/icon/' . $service['user']['icon']) }}" alt="プロフィール画像" />
+                                                <img class="rounded-circle me-3"  width="50" height="50"  src="{{ asset('img/icon/' . $service['service']['user']['icon']) }}" alt="プロフィール画像" />
                                             @endif                                <div class="small">
-                                                    <div class="fw-bold">{{ $service['user']['name'] }}</div>
-                                                    <div class="text-muted">{{ $service['user']['email'] }}</div>
+                                                    <div class="fw-bold">{{ $service['service']['user']['name'] }}</div>
+                                                    <div class="text-muted">{{ $service['service']['user']['email'] }}</div>
                                                 </div>
                                             </div>
                                     </div>
