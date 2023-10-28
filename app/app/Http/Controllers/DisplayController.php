@@ -217,6 +217,7 @@ class DisplayController extends Controller
             'requests' => $all_user_request,
         ]);
     }
+    
 
         // 投稿詳細画面へ（マイページから※編集・削除機能付き）
         public function serviceUserDetail(Service $service) {
