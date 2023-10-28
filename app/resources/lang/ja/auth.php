@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'failed' => 'アドレスが無効もしくはパスワードが異なります',
+    'failed' => 'アドレスが無効もしくはパスワードが異なります。退会された場合は管理者へお問い合わせください。',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
 ];

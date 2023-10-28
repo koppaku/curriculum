@@ -17,6 +17,22 @@
  } */
  /* オリジナル */
 
+ .loved {
+  color: red !important;
+  font-size:36px;
+}
+
+ .loved a {
+  text-decoration: none;
+}
+ .love {
+  font-size:36px;
+}
+
+ .love a {
+  text-decoration: none;
+}
+
 :root {
   --blue: #3490dc;
   --indigo: #6574cd;

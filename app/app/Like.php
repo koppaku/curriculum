@@ -20,4 +20,6 @@ class Like extends Model
     public function like_exist($user_id, $service_id) {        
         return Like::where('user_id', $user_id)->where('service_id', $service_id)->exists();       
     }
+
+    
 }

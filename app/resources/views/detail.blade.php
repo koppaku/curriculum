@@ -45,14 +45,14 @@
             @if($like_model->like_exist(Auth::user()->id,$servicedetail->id))
             <p class="favorite-marke">
             いいね
-            <a class="js-like-toggle loved" href="" data-postid="{{ $servicedetail->id }}"><i class="fas fa-heart" style="font-size:36px;color:red"></i></a>
-            <span class="likesCount">{{$servicedetail->likes_count}}</span>
+            <a class="js-like-toggle loved fas fa-heart" href="" data-postid="{{ $servicedetail->id }}"></a>
+            <span class="likesCount">{{$postLikesCount}}</span>
             </p>
             @else
             <p class="favorite-marke">
             いいね
-            <a class="js-like-toggle" href="" data-postid="{{ $servicedetail->id }}"><i class="fas fa-heart" style="font-size:36px;"></i></a>
-            <span class="likesCount">{{$servicedetail->likes_count}}</span>
+            <a class="js-like-toggle love fas fa-heart" href="" data-postid="{{ $servicedetail->id }}"></a>
+            <span class="likesCount">{{$postLikesCount}}</span>
             </p>
             @endif
         </div>
@@ -86,7 +86,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 url: '/ajaxlike',  //routeの記述
-                type: 'POST', //受け取り方法の記述（GETもある）
+                type: 'GET', //受け取り方法の記述（GETもある）
                 data: {
                     'service_id': likePostId //コントローラーに渡すパラメーター
                 },

@@ -96,7 +96,7 @@ Route::group(['middleware' => 'auth'], function() {
 
     // いいね機能
         //「ajaxlike.jsファイルのurl:'ルーティング'」に書くものと合わせる。
-         Route::post('ajaxlike', [DisplayController::class,'ajaxlike'])->name('posts.ajaxlike');
+         Route::get('ajaxlike', [DisplayController::class,'ajaxlike'])->name('posts.ajaxlike');
 
     // mypage(マイページへ)
     Route::get('/mypage', [DisplayController::class, 'mypage'])->name('mypage');    

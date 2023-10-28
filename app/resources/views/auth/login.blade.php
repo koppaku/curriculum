@@ -8,7 +8,7 @@
         <div class="col-md-8">
             <div class="card">
                 <!-- 下記を修正する -->
-                <div class="card-header"> 管理者 {{ __('Login') }}</div>
+                <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
                     @isset($url)
@@ -16,7 +16,7 @@
                         @csrf
 
                         <div class="form-group row">
-                            <label for="name" class="col-sm-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+                            <label for="name" class="col-sm-4 col-form-label text-md-right">管理者用{{ __('E-Mail Address') }}</label>
 
                             <div class="col-md-6">
                                 <input id="name" type="name" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus>
@@ -40,6 +40,12 @@
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </span>
                                 @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-6 offset-md-4">
+                                <a href="{{ url('/login') }}">一般用ログイン画面</a>
                             </div>
                         </div>
 

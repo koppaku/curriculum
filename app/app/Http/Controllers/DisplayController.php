@@ -156,10 +156,15 @@ class DisplayController extends Controller
 
         // dd($servicedetail);
 
+        $postLikesCount = $service->loadCount('likes')->likes_count;
+
+        // dd($postLikesCount);
+
         return view('detail', [
             'servicedetail' => $servicedetail[0],
             'posts' => $posts,
             'like_model'=>$like_model,
+            'postLikesCount' => $postLikesCount,
         ]);
         
     }
@@ -193,9 +198,12 @@ class DisplayController extends Controller
         $json = [
             'postLikesCount' => $postLikesCount,
         ];
+        // dd($servicedetail->likes_count);
+        // dd($json);
         //下記の記述でajaxに引数の値を返す
         return response()->json($json);
     }
+    
 
     // マイページ画面へ
     public function mypage() {

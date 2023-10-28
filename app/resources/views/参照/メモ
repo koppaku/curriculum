@@ -302,3 +302,21 @@ $user = $user->service->user_id;->where('user_id',$user)
 dd($user);
 
     $user = $like->with('service')->get();
+
+        <!-- いいね機能 -->
+        <div class="d-flex align-items-center justify-content-center">
+            @if($like_model->like_exist(Auth::user()->id,$servicedetail->id))
+            <p class="favorite-marke">
+            いいね
+            <a class="js-like-toggle loved fas fa-heart" href="" data-postid="{{ $servicedetail->id }}"></a>
+            <span class="likesCount">{{$servicedetail->likes_count}}</span>
+            </p>
+            @else
+            <p class="favorite-marke">
+            いいね
+            <a class="js-like-toggle love fas fa-heart" href="" data-postid="{{ $servicedetail->id }}"></a>
+            <span class="likesCount">{{$servicedetail->likes_count}}</span>
+            </p>
+            @endif
+            <p class="data postLikesCount">{{ $postLikesCount }}</p>
+        </div>
